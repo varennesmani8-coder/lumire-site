@@ -14,6 +14,34 @@ class UIManager {
         this.initializeEventListeners();
         this.loadProducts();
         this.restoreCart();
+        this.initializeHeaderScroll();
+    }
+
+    initializeHeaderScroll() {
+        const header = document.querySelector('.header');
+        let lastScrollTop = 0;
+        let isHeaderVisible = true;
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Scroll down - hide header
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                if (isHeaderVisible) {
+                    header.classList.add('hidden');
+                    isHeaderVisible = false;
+                }
+            }
+            // Scroll up - show header
+            else if (scrollTop < lastScrollTop) {
+                if (!isHeaderVisible) {
+                    header.classList.remove('hidden');
+                    isHeaderVisible = true;
+                }
+            }
+
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, false);
     }
 
     initializeEventListeners() {
