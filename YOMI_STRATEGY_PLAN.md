@@ -1,6 +1,10 @@
 # LUMIRÉ Yomi Strategy & Product Analysis
 
-**Référence vidéo**: https://youtu.be/e8FT3vgUdX4?si=rYc6PIop_a4-w6R_
+**Références vidéo**:
+- **Yomi Denzel (PRIORITAIRE - Plus récent)**: https://youtu.be/e8FT3vgUdX4?si=rYc6PIop_a4-w6R_
+- **Theo Ritzy (Complément - Ami de Yomi)**: https://youtu.be/OLKN_hCw7aU?si=Nifb2BWApu7O5OiZ
+  - Test dropshipping 48 heures: démonstration pratique des principes Yomi
+  - Validation réelle en conditions de marché
 
 ## Méthodologie Yomi Denzel
 
