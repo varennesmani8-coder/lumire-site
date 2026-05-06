@@ -6,7 +6,6 @@
   "outputDirectory": ".",
   "framework": null,
   "regions": ["iad1"],
-  "functions": {},
   "redirects": [
     {
       "source": "/mentions-legales",
