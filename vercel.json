@@ -5,16 +5,6 @@
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": ".",
   "framework": null,
-  "env": {
-    "SHOPIFY_STORE": {
-      "description": "Shopify store name (e.g., bys-store-2893582-948316)",
-      "required": false
-    },
-    "SHOPIFY_TOKEN": {
-      "description": "Shopify Storefront API token",
-      "required": false
-    }
-  },
   "regions": ["iad1"],
   "functions": {},
   "redirects": [
