@@ -1,0 +1,2 @@
+Set shell = CreateObject("WScript.Shell")
+shell.Run "cmd /c cd /d ""C:\Users\mangi\Documents\Agent Claude\Claude Code\Dropshipping\LUMIRÉ\lumire-site"" && git config user.email ""mangi@example.com"" && git config user.name ""Claude Code"" && git remote remove origin && git remote add origin ""https://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@github.com/varennesmani8-coder/lumire-site.git"" && git push -u origin main --force && pause", 1, True

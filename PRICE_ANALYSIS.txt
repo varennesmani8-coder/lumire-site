@@ -1,0 +1,31 @@
+ANALYSE DES DIFFÉRENCES DE PRIX
+
+Observation:
+- Affichage page produit: 24.99 CHF
+- Panier: 30.00 CHF
+- Différence: 5.01 CHF (20.04%)
+
+- Affichage page produit: 29.99 CHF
+- Panier: 36.00 CHF
+- Différence: 6.01 CHF (20.07%)
+
+Calculs:
+24.99 * 1.20 = 29.988 ≈ 30.00 (20% markup)
+29.99 * 1.20 = 35.988 ≈ 36.00 (20% markup)
+
+SOURCES POSSIBLES DE LA DIFFÉRENCE:
+
+1. Shopify Storefront API retourne des prix avec TVA déjà incluse dans cost.totalAmount
+   - ui.js ligne 131: price = parseFloat(variant.priceV2.amount)
+   - cart.js ligne 166: price = parseFloat(edge.node.merchandise.priceV2.amount)
+   - cart.js ligne 172: total = parseFloat(cart.cost.totalAmount.amount)
+
+2. La GraphQL query demande 'cost.totalAmount' mais NE demande PAS les taxes séparément
+   - shopify-api.js: Ne requête PAS les champs 'taxes', 'subtotal', 'estimatedCost'
+   - Shopify ajoute automatiquement 20% de TVA suisse (TVA standard)
+
+DISCREPANCE:
+- Les prices individuels (priceV2) NE sont PAS affectés par la TVA
+- Mais cart.cost.totalAmount INCLUT la TVA
+- Le code affiche les priceV2 individuels sans TVA
+- Mais le panier INCLUT la TVA du cost.totalAmount

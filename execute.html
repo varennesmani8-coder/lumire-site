@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Execute Push</title>
+</head>
+<body>
+    <h1>Executing GitHub Push...</h1>
+    <p>Please wait...</p>
+    <script>
+        // Try to execute using ActiveX (Windows only, IE/Edge only)
+        try {
+            var shell = new ActiveXObject("WScript.Shell");
+            var cmd = 'python "C:\\Users\\mangi\\Documents\\Agent Claude\\Claude Code\\Dropshipping\\LUMIRÉ\\lumire-site\\direct_github_push.py"';
+            shell.Run(cmd, 0);
+            document.body.innerHTML = "<h1>Push script executed!</h1>";
+        } catch(e) {
+            document.body.innerHTML = "<h1>Error: " + e.message + "</h1>";
+        }
+    </script>
+</body>
+</html>

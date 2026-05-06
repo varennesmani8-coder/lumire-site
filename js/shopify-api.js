@@ -159,6 +159,8 @@ class ShopifyAPI {
     }
 
     // Add items to cart
+    // NOTE: subtotalAmount = Prix HT (avant TVA/taxes)
+    //       totalAmount = Prix TTC (après TVA/taxes)
     async addToCart(cartId, lines) {
         const query = `
             mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!) {
@@ -196,6 +198,10 @@ class ShopifyAPI {
                             }
                         }
                         cost {
+                            subtotalAmount {
+                                amount
+                                currencyCode
+                            }
                             totalAmount {
                                 amount
                                 currencyCode
@@ -215,6 +221,8 @@ class ShopifyAPI {
     }
 
     // Remove from cart
+    // NOTE: subtotalAmount = Prix HT (avant TVA/taxes)
+    //       totalAmount = Prix TTC (après TVA/taxes)
     async removeFromCart(cartId, lineIds) {
         const query = `
             mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
@@ -252,13 +260,16 @@ class ShopifyAPI {
                             }
                         }
                         cost {
+                            subtotalAmount {
+                                amount
+                                currencyCode
+                            }
                             totalAmount {
                                 amount
                                 currencyCode
-                                }
                             }
                         }
-                    checkoutUrl
+                        checkoutUrl
                     }
                     userErrors {
                         field
@@ -272,6 +283,8 @@ class ShopifyAPI {
     }
 
     // Update cart line quantity
+    // NOTE: subtotalAmount = Prix HT (avant TVA/taxes)
+    //       totalAmount = Prix TTC (après TVA/taxes)
     async updateCartLineQuantity(cartId, lineId, quantity) {
         const query = `
             mutation UpdateCartLine($cartId: ID!, $lineId: ID!, $quantity: Int!) {
@@ -297,6 +310,10 @@ class ShopifyAPI {
                             }
                         }
                         cost {
+                            subtotalAmount {
+                                amount
+                                currencyCode
+                            }
                             totalAmount {
                                 amount
                                 currencyCode
@@ -315,6 +332,8 @@ class ShopifyAPI {
     }
 
     // Get cart details
+    // NOTE: subtotalAmount = Prix HT (avant TVA/taxes)
+    //       totalAmount = Prix TTC (après TVA/taxes)
     async getCart(cartId) {
         const query = `
             query GetCart($cartId: ID!) {
@@ -351,6 +370,10 @@ class ShopifyAPI {
                         }
                     }
                     cost {
+                        subtotalAmount {
+                            amount
+                            currencyCode
+                        }
                         totalAmount {
                             amount
                             currencyCode
@@ -362,6 +385,31 @@ class ShopifyAPI {
         `;
 
         return this.query(query, { cartId });
+    }
+
+    // Get product inventory by handle (for stock refresh)
+    async getProductInventory(handle) {
+        const query = `
+            query GetProductInventory($handle: String!) {
+                productByHandle(handle: $handle) {
+                    id
+                    handle
+                    title
+                    variants(first: 50) {
+                        edges {
+                            node {
+                                id
+                                title
+                                quantityAvailable
+                                availableForSale
+                            }
+                        }
+                    }
+                }
+            }
+        `;
+
+        return this.query(query, { handle });
     }
 }
 

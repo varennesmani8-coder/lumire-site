@@ -1,0 +1,119 @@
+================================================================================
+LUMIRE SITE - VERCEL DEPLOYMENT INSTRUCTIONS
+================================================================================
+
+COPY AND PASTE these commands into your Windows Terminal or Command Prompt:
+
+================================================================================
+STEP 1: Open your terminal
+================================================================================
+Windows Terminal or Command Prompt
+
+================================================================================
+STEP 2: Navigate to the project directory
+================================================================================
+cd "C:\Users\mangi\Documents\Agent Claude\Claude Code\Dropshipping\LUMIRÉ\lumire-site"
+
+================================================================================
+STEP 3: Verify Node.js and npm are installed
+================================================================================
+node --version
+npm --version
+
+(Should show v14+ and npm 6+)
+
+================================================================================
+STEP 4: Install Vercel CLI globally
+================================================================================
+npm install -g vercel
+
+================================================================================
+STEP 5: Deploy to Vercel production
+================================================================================
+vercel --prod
+
+When prompted, answer:
+- "Set up and deploy?" → Press 'y' and Enter
+- "Which scope should we deploy to?" → Select your Vercel account (press up/down + Enter)
+- "Link to existing project?" → Press 'n' and Enter (unless you already have one)
+- "What is your project's name?" → Type 'lumire-site' and press Enter
+- "In which directory is your code located?" → Just press Enter (default: .)
+
+================================================================================
+STEP 6: Deployment Complete!
+================================================================================
+Your site will be deployed to: https://lumire-site.vercel.app
+
+You'll see output like:
+  Production URL: https://lumire-site.vercel.app
+
+================================================================================
+STEP 7: Verify deployment
+================================================================================
+1. Open https://lumire-site.vercel.app in your browser
+2. Check that the page loads
+3. Open browser developer tools (F12)
+4. Check console for errors
+5. Verify all images and styles load correctly
+
+================================================================================
+PROJECT STATUS
+================================================================================
+✓ Git Remote: Configured (GitHub)
+✓ Git Branch: main
+✓ Latest Commits: 7 commits ready
+✓ vercel.json: Properly configured
+✓ package.json: Ready
+✓ index.html: Ready
+✓ All assets: Ready
+✓ Security headers: Configured
+
+================================================================================
+IF YOU NEED HELP
+================================================================================
+
+Issue: "npm: command not found"
+Fix: Install Node.js from https://nodejs.org/
+
+Issue: "vercel: command not found"
+Fix: npm install -g vercel
+
+Issue: Deployment fails
+Check:
+1. Internet connection
+2. Vercel account is logged in
+3. Project files exist
+4. Run: vercel login (if needed)
+
+================================================================================
+NEXT STEPS AFTER DEPLOYMENT
+================================================================================
+
+1. Custom Domain (Optional)
+   - Go to Vercel dashboard
+   - Project Settings → Domains
+   - Add your custom domain
+
+2. Environment Variables (If needed)
+   - Go to Vercel dashboard
+   - Settings → Environment Variables
+   - Add SHOPIFY_STORE and SHOPIFY_TOKEN if using Shopify
+
+3. Monitor Performance
+   - Check Vercel Analytics
+   - Monitor error logs
+   - Track deployment history
+
+================================================================================
+DEPLOYMENT URL
+================================================================================
+
+Production: https://lumire-site.vercel.app
+
+GitHub Repo: https://github.com/lumire-dropshipping/lumire-site
+
+Vercel Dashboard: https://vercel.com/dashboard
+
+================================================================================
+
+Ready? Run the commands above in your terminal!

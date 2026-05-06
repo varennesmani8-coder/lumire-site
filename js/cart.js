@@ -97,19 +97,49 @@ class CartManager {
     // Remove item from cart
     async removeItem(lineId) {
         try {
-            if (!this.cartId) return;
+            // Validation: check cartId
+            if (!this.cartId) {
+                const errMsg = 'Erreur: Pas de panier actif. Veuillez réessayer.';
+                console.error('removeItem: cartId is missing', { cartId: this.cartId });
+                this.showNotification(errMsg, 'error');
+                throw new Error(errMsg);
+            }
+
+            // Validation: check lineId
+            if (!lineId) {
+                const errMsg = 'Erreur: ID du produit invalide.';
+                console.error('removeItem: lineId is required', { lineId });
+                this.showNotification(errMsg, 'error');
+                throw new Error(errMsg);
+            }
+
+            console.log('[DEBUG] removeItem called', { cartId: this.cartId, lineId });
 
             const response = await window.shopifyAPI.removeFromCart(this.cartId, [lineId]);
 
+            // Handle API errors
             if (response.cartLinesRemove.userErrors.length > 0) {
-                throw new Error(response.cartLinesRemove.userErrors[0].message);
+                const apiError = response.cartLinesRemove.userErrors[0].message;
+                console.error('removeItem: API returned userErrors', { userErrors: response.cartLinesRemove.userErrors });
+                throw new Error(apiError);
             }
 
             await this.fetchCart();
+            console.log('[DEBUG] Item removed successfully', { lineId });
             this.showNotification('Produit supprimé du panier');
         } catch (error) {
-            console.error('Error removing from cart:', error);
-            this.showNotification('Erreur lors de la suppression', 'error');
+            // Network error or API error handling
+            console.error('removeItem: Error occurred', {
+                errorMessage: error.message,
+                errorType: error.constructor.name,
+                stack: error.stack,
+                cartId: this.cartId,
+                lineId: lineId
+            });
+
+            // Provide user-friendly feedback
+            const userMessage = error.message || 'Erreur lors de la suppression du produit. Veuillez réessayer.';
+            this.showNotification(userMessage, 'error');
         }
     }
 
@@ -288,12 +318,27 @@ class CartManager {
     // Show notification
     showNotification(message, type = 'success') {
         const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
+        toast.className = `toast toast-${type}`;
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'polite');
+
+        const icon = document.createElement('span');
+        icon.className = 'toast-icon';
+        icon.textContent = type === 'success' ? '✓' : '✕';
+
+        const text = document.createElement('span');
+        text.textContent = message;
+
+        toast.appendChild(icon);
+        toast.appendChild(text);
         document.body.appendChild(toast);
 
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+
         setTimeout(() => {
-            toast.remove();
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
 }

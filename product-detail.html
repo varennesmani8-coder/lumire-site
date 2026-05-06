@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Détail du produit LUMIRÉ - Appareils beauté premium">
+    <title>LUMIRÉ | Détail Produit</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/product-detail.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="logo-section">
+                    <a href="/" class="logo">LUMIRÉ</a>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="/#produits" class="nav-link">Produits</a></li>
+                    <li><a href="/#apropos" class="nav-link">À propos</a></li>
+                    <li><a href="/#contact" class="nav-link">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button id="cart-button" class="cart-btn" aria-label="Panier">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span id="cart-count" class="cart-count" style="display: none;">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="/" class="breadcrumb-link">Accueil</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="/#produits" class="breadcrumb-link">Produits</a>
+            <span class="breadcrumb-separator">/</span>
+            <span id="breadcrumb-product" class="breadcrumb-current">Produit</span>
+        </div>
+    </div>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail-section">
+        <div class="product-detail-container">
+            <!-- Product Images Carousel -->
+            <div class="product-images">
+                <div class="carousel-main">
+                    <img id="main-image" src="" alt="Image principale du produit" class="main-product-image">
+                    <div class="image-counter">
+                        <span id="image-current">1</span> / <span id="image-total">1</span>
+                    </div>
+                    <button class="carousel-arrow carousel-prev" id="carousel-prev" aria-label="Image précédente">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="carousel-arrow carousel-next" id="carousel-next" aria-label="Image suivante">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Thumbnails -->
+                <div class="carousel-thumbnails" id="carousel-thumbnails">
+                    <!-- Thumbnails seront générées par JS -->
+                </div>
+            </div>
+
+            <!-- Product Information -->
+            <div class="product-info">
+                <!-- Breadcrumb mobile -->
+                <div class="breadcrumb-mobile">
+                    <a href="/#produits" class="breadcrumb-link-mobile">← Retour aux produits</a>
+                </div>
+
+                <!-- Product Title -->
+                <div class="product-header">
+                    <h1 id="product-title" class="product-title">Chargement...</h1>
+                    <div class="product-rating">
+                        <div class="stars" id="product-stars">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                            </svg>
+                        </div>
+                        <span id="rating-text" class="rating-text">(0 avis)</span>
+                    </div>
+                </div>
+
+                <!-- Product Description -->
+                <div class="product-description-section">
+                    <p id="product-description" class="product-description">Description en cours de chargement...</p>
+                </div>
+
+                <!-- Price Section -->
+                <div class="price-section">
+                    <div class="price-display">
+                        <span class="price-label">Prix:</span>
+                        <span id="product-price" class="price-value">0,00 CHF</span>
+                    </div>
+                    <div class="stock-info">
+                        <span id="stock-status" class="stock-badge in-stock">En stock</span>
+                    </div>
+                </div>
+
+                <!-- Variants Selection -->
+                <div id="variants-section" class="variants-section" style="display: none;">
+                    <div id="variants-container"></div>
+                </div>
+
+                <!-- Quantity Selector -->
+                <div class="quantity-section">
+                    <label for="quantity-input" class="quantity-label">Quantité:</label>
+                    <div class="quantity-selector">
+                        <button id="quantity-minus" class="quantity-btn" aria-label="Diminuer la quantité">−</button>
+                        <input type="number" id="quantity-input" min="1" max="999" value="1" class="quantity-input">
+                        <button id="quantity-plus" class="quantity-btn" aria-label="Augmenter la quantité">+</button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="add-to-cart-btn" class="btn btn-primary btn-large">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right: 8px;">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        Ajouter au panier
+                    </button>
+                    <button id="continue-shopping-btn" class="btn btn-secondary btn-large">
+                        Continuer les courses
+                    </button>
+                </div>
+
+                <!-- Shipping Info -->
+                <div class="shipping-info">
+                    <div class="shipping-item">
+                        <svg class="shipping-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"></path>
+                        </svg>
+                        <span>Livraison gratuite sur les commandes de plus de 100 CHF</span>
+                    </div>
+                    <div class="shipping-item">
+                        <svg class="shipping-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path>
+                        </svg>
+                        <span>Livraison sous 3-5 jours ouvrables</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section class="reviews-section">
+        <div class="reviews-container">
+            <h2 class="section-title">Avis Clients</h2>
+
+            <div id="reviews-content" class="reviews-content">
+                <!-- Reviews will be loaded here -->
+                <div class="no-reviews">
+                    <p>Aucun avis pour le moment.</p>
+                    <p class="no-reviews-subtitle">Soyez le premier à laisser un avis!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Similar Products Section -->
+    <section class="similar-products-section">
+        <div class="similar-products-container">
+            <h2 class="section-title">Produits Similaires</h2>
+            <div id="similar-products-grid" class="products-grid">
+                <!-- Similar products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="cart-header">
+            <h2>Panier</h2>
+            <button id="close-cart" class="close-btn" aria-label="Fermer le panier">×</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <!-- Items du panier -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total">0,00 CHF</span>
+            </div>
+            <button id="checkout-btn" class="checkout-button" disabled>Passer la commande</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>LUMIRÉ</h4>
+                <ul>
+                    <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="/mentions-legales">Mentions légales</a></li>
+                    <li><a href="/politique-confidentialite">Politique de confidentialité</a></li>
+                    <li><a href="/conditions-vente">Conditions de vente</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <p>&copy; 2026 LUMIRÉ. Tous droits réservés.</p>
+                <p>Soin beauté premium pour une routine quotidienne.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/shopify-api.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/product-detail.js"></script>
+</body>
+</html>

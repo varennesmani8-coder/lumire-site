@@ -1,0 +1,242 @@
+===============================================
+EXACT LINES MODIFIED - QUICK REFERENCE
+===============================================
+
+FILE 1: css/global.css
+======================
+
+LINE 46-54 | BODY MARGIN-TOP (NEW)
+───────────────────────────────────
+OLD:
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+NEW:
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    margin-top: 64px;  ← ADDED
+}
+
+
+LINE 73-85 | HEADER POSITIONING & ANIMATION
+───────────────────────────────────────────
+OLD:
+.header {
+    position: sticky;
+    top: 0;
+    background-color: rgba(250, 250, 248, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-divider);
+    z-index: var(--z-header);
+}
+
+NEW:
+.header {
+    position: fixed;              ← CHANGED (sticky → fixed)
+    top: 0;
+    left: 0;                      ← ADDED
+    right: 0;                     ← ADDED
+    background-color: rgba(250, 250, 248, 0.95);  ← CHANGED (0.8 → 0.95)
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-divider);
+    z-index: var(--z-header);
+    transform: translateY(0);     ← ADDED
+    transition: transform 0.3s ease;  ← ADDED
+}
+
+
+LINE 87-93 | NEW HEADER HIDDEN CLASS
+──────────────────────────────────────
+ADDED AFTER .navbar:
+.header.hidden {
+    transform: translateY(-100%);
+}
+
+
+LINE 492-497 | FOOTER BACKGROUND & SPACING
+──────────────────────────────────────────
+OLD:
+.footer {
+    background-color: var(--color-blanc);
+    border-top: 1px solid var(--color-divider);
+    padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+NEW:
+.footer {
+    background-color: #D4B5A0;               ← CHANGED
+    border-top: 1px solid rgba(0, 0, 0, 0.1);  ← CHANGED
+    padding: var(--spacing-3xl) var(--spacing-lg);
+    margin-top: 60px;                        ← ADDED
+}
+
+
+LINE 508-514 | FOOTER SECTION H4 STYLING
+──────────────────────────────────────────
+OLD:
+.footer-section h4 {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    margin-bottom: var(--spacing-md);
+}
+
+NEW:
+.footer-section h4 {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    margin-bottom: var(--spacing-md);
+    color: #1d1d1d;                ← ADDED
+    font-weight: 600;              ← ADDED
+}
+
+
+LINE 523-538 | FOOTER SECTION LINKS & PARAGRAPHS
+──────────────────────────────────────────────────
+OLD:
+.footer-section a {
+    font-size: 14px;
+    color: var(--color-text-light);
+}
+
+.footer-section p {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+NEW:
+.footer-section a {
+    font-size: 14px;
+    color: #3d3d3d;                ← CHANGED
+    font-weight: 500;              ← ADDED
+    transition: color 0.2s ease;   ← ADDED
+}
+
+.footer-section a:hover {          ← NEW CLASS
+    color: #1d1d1d;
+}
+
+.footer-section p {
+    font-size: 12px;
+    color: #3d3d3d;                ← CHANGED
+    font-weight: 500;              ← ADDED
+}
+
+
+FILE 2: js/ui.js
+================
+
+LINE 12-18 | UIMANAGER CONSTRUCTOR
+──────────────────────────────────
+OLD:
+class UIManager {
+    constructor() {
+        this.initializeEventListeners();
+        this.loadProducts();
+        this.restoreCart();
+    }
+
+NEW:
+class UIManager {
+    constructor() {
+        this.initializeEventListeners();
+        this.loadProducts();
+        this.restoreCart();
+        this.initializeHeaderScroll();  ← ADDED
+    }
+
+
+LINE 20-45 | NEW METHOD: initializeHeaderScroll()
+──────────────────────────────────────────────────
+ADDED NEW METHOD AFTER CONSTRUCTOR:
+
+initializeHeaderScroll() {
+    const header = document.querySelector('.header');
+    let lastScrollTop = 0;
+    let isHeaderVisible = true;
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        // Scroll down - hide header
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            if (isHeaderVisible) {
+                header.classList.add('hidden');
+                isHeaderVisible = false;
+            }
+        }
+        // Scroll up - show header
+        else if (scrollTop < lastScrollTop) {
+            if (!isHeaderVisible) {
+                header.classList.remove('hidden');
+                isHeaderVisible = true;
+            }
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, false);
+}
+
+
+SUMMARY OF CHANGES:
+===================
+
+CSS (global.css):
+✓ 2 properties modified in .header
+✓ 3 properties added to .header
+✓ 1 new CSS class added (.header.hidden)
+✓ 1 property added to body
+✓ 2 properties modified in .footer
+✓ 1 property added to .footer
+✓ 2 properties added to .footer-section h4
+✓ 3 properties modified/added to .footer-section a
+✓ 1 new pseudo-class added (.footer-section a:hover)
+✓ 2 properties modified/added to .footer-section p
+
+JavaScript (ui.js):
+✓ 1 new method call added to constructor
+✓ 1 completely new method added (initializeHeaderScroll)
+✓ ~25 lines of scroll detection logic
+
+Total Lines Changed:
+✓ CSS: ~30 lines modified/added
+✓ JS: ~26 lines modified/added
+✓ Total: ~56 lines of changes
+✓ HTML: 0 lines (no HTML changes needed!)
+
+
+TESTING VERIFICATION:
+=====================
+
+To verify changes are applied:
+
+1. Check CSS was modified:
+   - Open css/global.css
+   - Line 73: .header should have "position: fixed"
+   - Line 84: Should have "transition: transform 0.3s ease;"
+   - Line 91-93: Should have ".header.hidden" class
+   - Line 493: .footer background should be "#D4B5A0"
+   - Line 512-513: h4 should have color and font-weight
+
+2. Check JS was modified:
+   - Open js/ui.js
+   - Line 17: Should have "this.initializeHeaderScroll();"
+   - Line 20: Should have "initializeHeaderScroll()" method
+   - Lines 25-44: Should have scroll detection logic
+
+3. Test in browser:
+   - Scroll down → header should hide
+   - Scroll up → header should appear
+   - Check footer is light tan color (#D4B5A0)
+   - Check footer text is dark and readable
+   - Test on mobile/tablet/desktop

@@ -1,0 +1,276 @@
+================================================================================
+FLUX UTILISATEUR - PAGE PRODUIT DÉTAILLÉE
+================================================================================
+
+1. ACCUEIL (index.html)
+   =====================================
+   
+   Utilisateur voit:
+   - Grille de produits (cartes)
+   - Chaque carte: image + titre + prix + "Ajouter au panier"
+   
+   Interactions:
+   a) Clique sur la CARTE (image, titre, prix)
+      → Navigue vers /product-detail.html?handle=produit-abc
+      
+   b) Clique sur le BOUTON "Ajouter au panier"
+      → Ajoute directement (sans détails)
+      → Toast notification
+
+
+2. PAGE DÉTAIL PRODUIT (product-detail.html?handle=xxx)
+   =====================================
+   
+   Chargement:
+   - ProductDetailManager récupère handle depuis URL
+   - ShopifyAPI.getProductByHandle(handle)
+   - Affiche tous les détails
+
+
+3. LAYOUT PAGE DÉTAIL
+   =====================================
+   
+   DESKTOP (> 1024px):
+   ┌─────────────────────────────────────────┐
+   │ HEADER (LUMIRÉ | Panier)                │
+   ├─────────────────────────────────────────┤
+   │ Breadcrumb: Accueil / Produits / Produit│
+   ├──────────────────┬──────────────────────┤
+   │ IMAGES CAROUSEL  │ INFOS PRODUIT        │
+   │                  │                      │
+   │ [MAIN IMAGE]     │ Titre                │
+   │  <  THUMBS  >    │ ★★★★★ (5 avis)       │
+   │                  │                      │
+   │ 3/8              │ Description          │
+   │                  │                      │
+   │                  │ Prix: 199.99 CHF     │
+   │                  │ Stock: En stock      │
+   │                  │                      │
+   │                  │ Quantité: [1] +/-    │
+   │                  │                      │
+   │                  │ [Ajouter au panier]  │
+   │                  │ [Continuer shopping] │
+   │                  │                      │
+   │                  │ 📦 Livraison gratuite│
+   │                  │ ⏱ 3-5 jours          │
+   ├──────────────────┴──────────────────────┤
+   │ AVIS CLIENTS (placeholder)               │
+   ├──────────────────────────────────────────┤
+   │ PRODUITS SIMILAIRES (4 cartes)           │
+   │ [Produit 1] [Produit 2] [Produit 3] ...  │
+   ├──────────────────────────────────────────┤
+   │ FOOTER                                   │
+   └──────────────────────────────────────────┘
+
+
+   MOBILE (< 768px):
+   ┌──────────────────────────┐
+   │ HEADER                   │
+   ├──────────────────────────┤
+   │ ← Retour aux produits    │
+   ├──────────────────────────┤
+   │ IMAGES CAROUSEL          │
+   │ [MAIN IMAGE]             │
+   │   <    >                 │
+   │ [T1][T2][T3][T4]         │
+   │ 3/8                      │
+   ├──────────────────────────┤
+   │ INFOS PRODUIT            │
+   │ Titre                    │
+   │ ★★★★★ (5)               │
+   │ Description              │
+   │ Prix: 199.99 CHF         │
+   │ Stock: En stock          │
+   ├──────────────────────────┤
+   │ Quantité: [1] +/-        │
+   │ [Ajouter au panier]      │
+   │ [Continuer shopping]     │
+   ├──────────────────────────┤
+   │ 📦 Livraison gratuite    │
+   │ ⏱ 3-5 jours              │
+   ├──────────────────────────┤
+   │ AVIS CLIENTS             │
+   ├──────────────────────────┤
+   │ PRODUITS SIMILAIRES      │
+   │ [Produit 1]              │
+   │ [Produit 2]              │
+   │ [Produit 3]              │
+   ├──────────────────────────┤
+   │ FOOTER                   │
+   └──────────────────────────┘
+
+
+4. INTERACTIONS - CARROUSEL
+   =====================================
+   
+   Navigation:
+   ┌─────────────────────────────┐
+   │ <  [IMAGE PRINCIPALE]  >    │
+   │    [TH1][TH2][TH3]... 3/8   │
+   └─────────────────────────────┘
+   
+   Utilisateur peut:
+   a) Cliquer < ou > (flèches)
+      → Image précédente/suivante
+      
+   b) Touches clavier
+      ← → (Arrow Left/Right)
+      → Image précédente/suivante
+      
+   c) Cliquer thumbnails
+      → Affiche cette image
+      
+   d) Compteur 3/8
+      → Position courante / total
+
+
+5. INTERACTIONS - QUANTITÉ
+   =====================================
+   
+   Quantité: [  -  ][  3  ][  +  ]
+   
+   Utilisateur peut:
+   a) Cliquer - (moins)
+      → Quantité − 1 (min: 1)
+      
+   b) Cliquer + (plus)
+      → Quantité + 1 (max: 999)
+      
+   c) Taper dans input
+      → Quantité mise à jour
+      → Validation (min:1, max:999)
+
+
+6. AJOUTER AU PANIER
+   =====================================
+   
+   Utilisateur clique "Ajouter au panier":
+   
+   1. Validation:
+      ✓ Variante sélectionnée?
+      ✓ Produit disponible?
+      
+   2. Ajouter via CartManager:
+      CartManager.addItem(variantId, quantity)
+      
+   3. Notification:
+      Toast: "Produit ajouté au panier!"
+      
+   4. Panier drawer s'ouvre:
+      │ Panier
+      │ ─────────────────
+      │ Produit 1  x 3  99 CHF
+      │ Produit 2  x 1  49 CHF
+      │ ─────────────────
+      │ Total: 148 CHF
+      │ [Passer la commande]
+
+
+7. PRODUITS SIMILAIRES
+   =====================================
+   
+   Chargement automatique:
+   - 4 produits similaires (via ShopifyAPI)
+   - Exclut le produit courant
+   
+   Utilisateur peut:
+   a) Cliquer sur un produit
+      → Navigue vers ce produit
+      → URL change: ?handle=autre-produit
+      
+   b) Cliquer "Ajouter au panier"
+      → Ajoute directement
+      → Reste sur la page
+
+
+8. CONTINUER SHOPPING
+   =====================================
+   
+   Utilisateur clique "Continuer les courses":
+   → Navigue vers /#produits (accueil)
+   → Scroll vers section produits
+
+
+9. PANIER (Drawer)
+   =====================================
+   
+   Utilisateur ouvre le panier:
+   
+   │ Panier                    ╳
+   │ ───────────────────────────
+   │ Produit 1  x 2  49 CHF
+   │ - + Supprimer
+   │
+   │ Produit 2  x 1  99 CHF
+   │ - + Supprimer
+   │ ───────────────────────────
+   │ Total: 148 CHF
+   │
+   │ [Passer la commande]
+   │ ───────────────────────────
+   
+   Interactions:
+   a) Cliquer - ou + pour modifier quantité
+   b) Cliquer "Supprimer" pour retirer produit
+   c) Cliquer "Passer la commande"
+      → Redirection Shopify checkout
+   d) Cliquer ╳ ou overlay pour fermer
+   e) Touche Escape pour fermer
+
+
+10. RÉSUMÉ FLUX COMPLET
+    =====================================
+    
+    Accueil
+        ↓ (clic carte produit)
+    Détail Produit
+        ↓ (navigation carrousel)
+    Voir images produit
+        ↓ (sélectionner quantité)
+    Quantité définie
+        ↓ (clic "Ajouter au panier")
+    Produit dans panier
+        ↓ (toast notification)
+    Confirmation visuelle
+        ↓ (facultatif: voir produits similaires)
+    Continuer shopping OU voir panier
+        ↓
+    Accueil OU Checkout
+
+================================================================================
+ÉVÉNEMENTS CLAVIER
+================================================================================
+
+Page Produit:
+  Arrow Left     → Image précédente (carrousel)
+  Arrow Right    → Image suivante (carrousel)
+  Escape         → Fermer panier drawer
+  Tab            → Navigation entre éléments
+  Enter          → Cliquer bouton focusé
+
+Accessibilité:
+  ✓ ARIA labels sur boutons
+  ✓ Focus visible sur tous éléments
+  ✓ Contraste texte > 4.5:1
+  ✓ Images alt text
+  ✓ Structure heading correcte
+
+================================================================================
+NOTIFICATIONS
+================================================================================
+
+Toast Notifications (auto-disparition 3s):
+
+Succès (Vert/Or):
+  "Produit ajouté au panier!"
+  "Panier mise à jour"
+
+Erreur (Rouge):
+  "Erreur lors de l'ajout au panier"
+  "Produit non disponible"
+  "Rupture de stock"
+
+Info (Neutre):
+  "Chargement..."
+
+================================================================================
