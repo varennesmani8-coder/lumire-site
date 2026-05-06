@@ -3,7 +3,7 @@
 ## Status: RESOLVED ✓
 
 ### Problem
-The LUMIRÉ site required a valid Shopify Storefront API token to function. The test token (`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`) was invalid and returned `UNAUTHORIZED` errors.
+The LUMIRÉ site required a valid Shopify Storefront API token to function. Initial test token was invalid and returned `UNAUTHORIZED` errors.
 
 ### Solution
 **The Shopify Storefront API supports unauthenticated access for headless commerce operations.**

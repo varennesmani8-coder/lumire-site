@@ -211,7 +211,7 @@ vercel --prod
 Ouvre `js/ui.js` et remplace:
 ```javascript
 const SHOPIFY_STORE = 'bys-store-2893582-948316';
-const SHOPIFY_TOKEN = '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'; // Old test token
+const SHOPIFY_TOKEN = 'shpat_YOUR_TEST_TOKEN'; // Old test token
 ```
 
 Par:
