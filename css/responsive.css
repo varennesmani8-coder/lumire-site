@@ -1,0 +1,334 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet: 768px - 1024px */
+@media (max-width: 1024px) {
+    .hero {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+        padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .hero-title {
+        font-size: 42px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--spacing-lg);
+    }
+
+    .navbar-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .nav-menu {
+        gap: var(--spacing-lg);
+    }
+}
+
+/* Mobile: < 768px */
+@media (max-width: 768px) {
+    :root {
+        --spacing-xl: 24px;
+        --spacing-2xl: 32px;
+        --spacing-3xl: 48px;
+    }
+
+    body {
+        font-size: 16px; /* Prevent zoom on input */
+    }
+
+    /* Header */
+    .navbar-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background-color: var(--color-bg);
+        border-bottom: 1px solid var(--color-divider);
+        padding: var(--spacing-lg);
+        gap: var(--spacing-md);
+        z-index: var(--z-dropdown);
+    }
+
+    .nav-menu.open {
+        display: flex;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    /* Hero */
+    .hero {
+        grid-template-columns: 1fr;
+        padding: var(--spacing-2xl) var(--spacing-md);
+        gap: var(--spacing-2xl);
+    }
+
+    .hero-title {
+        font-size: 32px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    /* Section */
+    .products-section {
+        padding: var(--spacing-2xl) var(--spacing-md);
+        margin: var(--spacing-2xl) auto;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: var(--spacing-md);
+    }
+
+    .product-name {
+        font-size: 14px;
+    }
+
+    .product-price {
+        font-size: 14px;
+    }
+
+    .product-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 12px;
+    }
+
+    /* Benefits */
+    .benefits-section {
+        padding: var(--spacing-2xl) var(--spacing-md);
+    }
+
+    .benefits-container {
+        gap: var(--spacing-lg);
+    }
+
+    .benefit-item {
+        gap: var(--spacing-sm);
+    }
+
+    .benefit-item h3 {
+        font-size: 16px;
+    }
+
+    .benefit-item p {
+        font-size: 12px;
+    }
+
+    /* Cart Drawer */
+    .cart-drawer {
+        max-width: 100%;
+    }
+
+    .cart-header {
+        padding: var(--spacing-md);
+    }
+
+    .cart-header h2 {
+        font-size: 18px;
+    }
+
+    .cart-items {
+        padding: var(--spacing-md);
+    }
+
+    /* Footer */
+    .footer {
+        padding: var(--spacing-2xl) var(--spacing-md);
+    }
+
+    .footer-content {
+        gap: var(--spacing-lg);
+    }
+
+    .footer-section h4 {
+        font-size: 14px;
+    }
+
+    .footer-section ul {
+        gap: var(--spacing-sm);
+    }
+
+    .footer-section a {
+        font-size: 12px;
+    }
+
+    .footer-section p {
+        font-size: 11px;
+    }
+
+    /* CTA */
+    .cta-button {
+        display: block;
+        width: 100%;
+        padding: var(--spacing-md);
+        font-size: 14px;
+    }
+
+    /* Toast */
+    .toast {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+        font-size: 12px;
+    }
+}
+
+/* Small Mobile: < 480px */
+@media (max-width: 480px) {
+    :root {
+        --spacing-lg: 16px;
+        --spacing-xl: 20px;
+        --spacing-2xl: 24px;
+    }
+
+    /* Logo */
+    .logo {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    /* Hero */
+    .hero-title {
+        font-size: 24px;
+        line-height: 1;
+    }
+
+    .hero-subtitle {
+        font-size: 13px;
+    }
+
+    /* Products */
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-card {
+        gap: var(--spacing-sm);
+    }
+
+    .product-button {
+        width: 100%;
+    }
+
+    /* Section Title */
+    .section-title {
+        font-size: 20px;
+    }
+
+    .section-subtitle {
+        font-size: 13px;
+    }
+
+    /* Benefits Icon */
+    .benefit-icon {
+        font-size: 24px;
+    }
+
+    /* Cart Item */
+    .cart-item-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Buttons */
+    .checkout-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    /* Input */
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+        padding: var(--spacing-sm);
+        font-size: 16px; /* Prevent zoom */
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-section h4 {
+        font-size: 13px;
+    }
+
+    .footer-section a {
+        font-size: 11px;
+    }
+}
+
+/* Portrait Orientation Adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        padding: var(--spacing-lg) var(--spacing-md);
+        gap: var(--spacing-lg);
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .hero-image-placeholder {
+        aspect-ratio: auto;
+        height: 250px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    header,
+    footer,
+    .cart-drawer,
+    .cart-overlay {
+        display: none;
+    }
+
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    .product-button,
+    .cta-button,
+    .checkout-button {
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+    }
+}
+
+/* Dark Mode (if user prefers) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #1d1d1d;
+        --color-text: #f5f5f5;
+        --color-text-light: #a1a1a1;
+        --color-divider: #404040;
+        --color-blanc: #2a2a2a;
+    }
+
+    .header {
+        background-color: rgba(29, 29, 29, 0.8);
+    }
+}

@@ -1,0 +1,170 @@
+/* ===== UI AND APP INITIALIZATION ===== */
+
+// ⚠️ CONFIGURE THESE WITH YOUR SHOPIFY STORE INFO
+const SHOPIFY_STORE = 'bys-store-2893582-948316'; // Your store name
+const SHOPIFY_TOKEN = ''; // Storefront API token (optional for read-only operations - public API allows unauthenticated reads)
+
+// Initialize Shopify API
+const shopifyAPI = new ShopifyAPI(SHOPIFY_STORE, SHOPIFY_TOKEN);
+window.shopifyAPI = shopifyAPI;
+
+// UI Manager
+class UIManager {
+    constructor() {
+        this.initializeEventListeners();
+        this.loadProducts();
+        this.restoreCart();
+    }
+
+    initializeEventListeners() {
+        // Cart drawer toggle
+        const cartBtn = document.getElementById('cart-button');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        cartBtn.addEventListener('click', () => this.openCartDrawer());
+        closeCartBtn.addEventListener('click', () => this.closeCartDrawer());
+        cartOverlay.addEventListener('click', () => this.closeCartDrawer());
+
+        // Checkout button
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            window.cartManager.checkout();
+        });
+
+        // Close cart on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeCartDrawer();
+            }
+        });
+    }
+
+    openCartDrawer() {
+        document.getElementById('cart-drawer').classList.add('open');
+        document.getElementById('cart-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeCartDrawer() {
+        document.getElementById('cart-drawer').classList.remove('open');
+        document.getElementById('cart-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    async loadProducts() {
+        try {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = this.createSkeletons(6);
+
+            const response = await shopifyAPI.getProducts(12);
+            const products = response.products.edges;
+
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-text-light);">Aucun produit disponible</p>';
+                return;
+            }
+
+            grid.innerHTML = products
+                .map(edge => this.createProductCard(edge.node))
+                .join('');
+
+            // Add event listeners to product buttons
+            document.querySelectorAll('.product-button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const variantId = btn.dataset.variantId;
+                    window.cartManager.addItem(variantId, 1);
+                });
+            });
+        } catch (error) {
+            console.error('Error loading products:', error);
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-or);">Erreur lors du chargement des produits</p>';
+        }
+    }
+
+    createProductCard(product) {
+        const variant = product.variants.edges[0]?.node;
+        const image = product.images.edges[0]?.node;
+        const price = variant ? parseFloat(variant.priceV2.amount) : 0;
+
+        return `
+            <div class="product-card">
+                <img
+                    src="${image?.url || ''}"
+                    alt="${image?.altText || product.title}"
+                    class="product-image"
+                    loading="lazy"
+                />
+                <h3 class="product-name">${product.title}</h3>
+                <div class="product-price">${price.toFixed(2)} CHF</div>
+                <button
+                    class="product-button"
+                    data-variant-id="${variant?.id || ''}"
+                    ${!variant?.availableForSale ? 'disabled' : ''}
+                >
+                    ${variant?.availableForSale ? 'Ajouter au panier' : 'Rupture de stock'}
+                </button>
+            </div>
+        `;
+    }
+
+    createSkeletons(count) {
+        return Array.from({ length: count })
+            .map(
+                () => `
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-text" style="height: 18px;"></div>
+                    <div class="skeleton-text" style="height: 16px; width: 80px;"></div>
+                    <div class="skeleton-text" style="height: 40px;"></div>
+                </div>
+            `
+            )
+            .join('');
+    }
+
+    async restoreCart() {
+        // Check if there's a stored cart ID
+        if (window.cartManager.cartId) {
+            try {
+                await window.cartManager.fetchCart();
+            } catch (error) {
+                console.error('Error restoring cart:', error);
+                // Clear invalid cart
+                localStorage.removeItem(window.cartManager.getStorageKey());
+            }
+        }
+    }
+}
+
+// Initialize app when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if API token is configured
+    if (SHOPIFY_TOKEN === 'YOUR_STOREFRONT_API_TOKEN_HERE') {
+        console.error('❌ SHOPIFY_TOKEN not configured in ui.js');
+        document.getElementById('products-grid').innerHTML =
+            '<p style="grid-column: 1/-1; text-align: center; color: red;">⚠️ API non configurée. Voir console.</p>';
+        return;
+    }
+
+    window.uiManager = new UIManager();
+    console.log('✅ LUMIRÉ app initialized');
+});
+
+// Smooth scroll for anchor links
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
+});
+
+// Analytics placeholder
+window.trackEvent = (eventName, eventData = {}) => {
+    console.log(`📊 Event: ${eventName}`, eventData);
+};

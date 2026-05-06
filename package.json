@@ -1,0 +1,30 @@
+{
+  "name": "lumire-site",
+  "version": "1.0.0",
+  "description": "LUMIRÉ - Site Headless Shopify (Beauté Dropshipping)",
+  "main": "index.html",
+  "author": "Mani / VarennesAI",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "python -m http.server 8000 --directory .",
+    "serve": "npx http-server",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": [
+    "shopify",
+    "ecommerce",
+    "beauty",
+    "dropshipping",
+    "headless",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/lumire-site"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,60 @@
+{
+  "name": "lumire-site",
+  "version": 2,
+  "public": true,
+  "buildCommand": "echo 'Static site - no build needed'",
+  "outputDirectory": ".",
+  "framework": null,
+  "env": {
+    "SHOPIFY_STORE": {
+      "description": "Shopify store name (e.g., bys-store-2893582-948316)",
+      "required": false
+    },
+    "SHOPIFY_TOKEN": {
+      "description": "Shopify Storefront API token",
+      "required": false
+    }
+  },
+  "regions": ["iad1"],
+  "functions": {},
+  "redirects": [
+    {
+      "source": "/mentions-legales",
+      "destination": "/legal/mentions-legales.html",
+      "permanent": true
+    },
+    {
+      "source": "/politique-confidentialite",
+      "destination": "/legal/politique-confidentialite.html",
+      "permanent": true
+    },
+    {
+      "source": "/conditions-vente",
+      "destination": "/legal/conditions-vente.html",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}

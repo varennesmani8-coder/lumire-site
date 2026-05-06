@@ -1,0 +1,13 @@
+# Files not needed for deployment
+.git
+.gitignore
+README.md
+*.md
+config.example.js
+.vscode
+.idea
+node_modules
+npm-debug.log
+yarn-error.log
+.DS_Store
+Thumbs.db
