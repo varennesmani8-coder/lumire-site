@@ -61,13 +61,21 @@ class UIManager {
             const products = response.products.edges;
 
             if (products.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-text-light);">Aucun produit disponible</p>';
+                grid.innerHTML = '';
+                const emptyMsg = document.createElement('p');
+                emptyMsg.style.gridColumn = '1/-1';
+                emptyMsg.style.textAlign = 'center';
+                emptyMsg.style.color = 'var(--color-text-light)';
+                emptyMsg.textContent = 'Aucun produit disponible';
+                grid.appendChild(emptyMsg);
                 return;
             }
 
-            grid.innerHTML = products
-                .map(edge => this.createProductCard(edge.node))
-                .join('');
+            grid.innerHTML = '';
+            products.forEach(edge => {
+                const productCard = this.createProductCard(edge.node);
+                grid.appendChild(productCard);
+            });
 
             // Add event listeners to product buttons
             document.querySelectorAll('.product-button').forEach(btn => {
@@ -79,7 +87,13 @@ class UIManager {
         } catch (error) {
             console.error('Error loading products:', error);
             const grid = document.getElementById('products-grid');
-            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-or);">Erreur lors du chargement des produits</p>';
+            grid.innerHTML = '';
+            const errorMsg = document.createElement('p');
+            errorMsg.style.gridColumn = '1/-1';
+            errorMsg.style.textAlign = 'center';
+            errorMsg.style.color = 'var(--color-or)';
+            errorMsg.textContent = 'Erreur lors du chargement des produits';
+            grid.appendChild(errorMsg);
         }
     }
 
@@ -88,25 +102,34 @@ class UIManager {
         const image = product.images.edges[0]?.node;
         const price = variant ? parseFloat(variant.priceV2.amount) : 0;
 
-        return `
-            <div class="product-card">
-                <img
-                    src="${image?.url || ''}"
-                    alt="${image?.altText || product.title}"
-                    class="product-image"
-                    loading="lazy"
-                />
-                <h3 class="product-name">${product.title}</h3>
-                <div class="product-price">${price.toFixed(2)} CHF</div>
-                <button
-                    class="product-button"
-                    data-variant-id="${variant?.id || ''}"
-                    ${!variant?.availableForSale ? 'disabled' : ''}
-                >
-                    ${variant?.availableForSale ? 'Ajouter au panier' : 'Rupture de stock'}
-                </button>
-            </div>
-        `;
+        const card = document.createElement('div');
+        card.className = 'product-card';
+
+        const img = document.createElement('img');
+        img.src = image?.url || '';
+        img.alt = image?.altText || product.title;
+        img.className = 'product-image';
+        img.loading = 'lazy';
+        card.appendChild(img);
+
+        const title = document.createElement('h3');
+        title.className = 'product-name';
+        title.textContent = product.title;
+        card.appendChild(title);
+
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'product-price';
+        priceDiv.textContent = `${price.toFixed(2)} CHF`;
+        card.appendChild(priceDiv);
+
+        const button = document.createElement('button');
+        button.className = 'product-button';
+        button.dataset.variantId = variant?.id || '';
+        button.disabled = !variant?.availableForSale;
+        button.textContent = variant?.availableForSale ? 'Ajouter au panier' : 'Rupture de stock';
+        card.appendChild(button);
+
+        return card;
     }
 
     createSkeletons(count) {

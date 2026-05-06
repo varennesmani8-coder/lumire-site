@@ -11,15 +11,49 @@ class CartManager {
 
     // LocalStorage keys
     getStorageKey() {
-        return 'lumire_cart_id';
+        return 'lumire_cart';
+    }
+
+    getUserHash() {
+        return btoa(navigator.userAgent).substring(0, 20);
     }
 
     getStoredCartId() {
-        return localStorage.getItem(this.getStorageKey());
+        try {
+            const stored = localStorage.getItem(this.getStorageKey());
+            if (!stored) return null;
+
+            const { cartId, expiresAt, userHash } = JSON.parse(stored);
+
+            // Check expiration (24 hours)
+            if (Date.now() > expiresAt) {
+                localStorage.removeItem(this.getStorageKey());
+                return null;
+            }
+
+            // Check user hash for XSS/hijacking protection
+            if (userHash !== this.getUserHash()) {
+                localStorage.removeItem(this.getStorageKey());
+                return null;
+            }
+
+            return cartId;
+        } catch {
+            localStorage.removeItem(this.getStorageKey());
+            return null;
+        }
     }
 
     saveCartId(cartId) {
-        localStorage.setItem(this.getStorageKey(), cartId);
+        const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
+        localStorage.setItem(
+            this.getStorageKey(),
+            JSON.stringify({
+                cartId,
+                expiresAt,
+                userHash: this.getUserHash(),
+            })
+        );
         this.cartId = cartId;
     }
 
@@ -180,25 +214,60 @@ class CartManager {
                 </div>
             `;
         } else {
-            cartItemsContainer.innerHTML = this.items
-                .map(
-                    item => `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.altText}" class="cart-item-image" />
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${item.title}</div>
-                            <div class="cart-item-price">${item.price.toFixed(2)} CHF</div>
-                            <div class="cart-item-qty">
-                                <button class="qty-btn" onclick="window.cartManager.updateQuantity('${item.lineId}', ${item.quantity - 1})">−</button>
-                                <span>${item.quantity}</span>
-                                <button class="qty-btn" onclick="window.cartManager.updateQuantity('${item.lineId}', ${item.quantity + 1})">+</button>
-                            </div>
-                            <button class="remove-btn" onclick="window.cartManager.removeItem('${item.lineId}')">Supprimer</button>
-                        </div>
-                    </div>
-                `
-                )
-                .join('');
+            cartItemsContainer.innerHTML = '';
+            this.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = item.altText;
+                img.className = 'cart-item-image';
+                itemDiv.appendChild(img);
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'cart-item-info';
+
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'cart-item-name';
+                nameDiv.textContent = item.title;
+                infoDiv.appendChild(nameDiv);
+
+                const priceDiv = document.createElement('div');
+                priceDiv.className = 'cart-item-price';
+                priceDiv.textContent = `${item.price.toFixed(2)} CHF`;
+                infoDiv.appendChild(priceDiv);
+
+                const qtyDiv = document.createElement('div');
+                qtyDiv.className = 'cart-item-qty';
+
+                const btnMinus = document.createElement('button');
+                btnMinus.className = 'qty-btn';
+                btnMinus.textContent = '−';
+                btnMinus.addEventListener('click', () => this.updateQuantity(item.lineId, item.quantity - 1));
+                qtyDiv.appendChild(btnMinus);
+
+                const qtySpan = document.createElement('span');
+                qtySpan.textContent = item.quantity;
+                qtyDiv.appendChild(qtySpan);
+
+                const btnPlus = document.createElement('button');
+                btnPlus.className = 'qty-btn';
+                btnPlus.textContent = '+';
+                btnPlus.addEventListener('click', () => this.updateQuantity(item.lineId, item.quantity + 1));
+                qtyDiv.appendChild(btnPlus);
+
+                infoDiv.appendChild(qtyDiv);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.textContent = 'Supprimer';
+                removeBtn.addEventListener('click', () => this.removeItem(item.lineId));
+                infoDiv.appendChild(removeBtn);
+
+                itemDiv.appendChild(infoDiv);
+                cartItemsContainer.appendChild(itemDiv);
+            });
         }
 
         // Update total
