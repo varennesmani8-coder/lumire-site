@@ -4,7 +4,6 @@
 .env.*.local
 
 # Configuration
-config.js
 config.local.js
 
 # Node

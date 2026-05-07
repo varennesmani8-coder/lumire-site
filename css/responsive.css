@@ -5,13 +5,11 @@
 /* Tablet: 768px - 1023px */
 @media (max-width: 1023px) {
     .hero {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-2xl);
         padding: var(--spacing-2xl) var(--spacing-lg);
     }
 
     .hero-title {
-        font-size: 42px;
+        font-size: 64px;
     }
 
     /* Products: 2 columns on tablet */
@@ -70,25 +68,16 @@
 
     /* Hero */
     .hero {
-        grid-template-columns: 1fr;
         padding: var(--spacing-2xl) var(--spacing-md);
-        gap: var(--spacing-2xl);
     }
 
     .hero-title {
-        font-size: 32px;
+        font-size: 48px;
     }
 
     .hero-subtitle {
-        font-size: 14px;
+        font-size: 16px;
         max-width: 100%;
-    }
-
-    .hero-image-placeholder {
-        width: 100%;
-        aspect-ratio: 1;
-        max-width: 100%;
-        overflow: hidden;
     }
 
     /* Section */
@@ -273,23 +262,16 @@
 
     /* Hero */
     .hero {
-        grid-template-columns: 1fr;
         padding: var(--spacing-xl) var(--spacing-md);
-        gap: var(--spacing-xl);
     }
 
     .hero-title {
-        font-size: 24px;
-        line-height: 1;
+        font-size: 36px;
+        line-height: 1.1;
     }
 
     .hero-subtitle {
         font-size: 13px;
-    }
-
-    .hero-image-placeholder {
-        width: 100%;
-        aspect-ratio: 1;
     }
 
     /* Products */
@@ -415,9 +397,8 @@
         font-size: 24px;
     }
 
-    .hero-image-placeholder {
-        aspect-ratio: auto;
-        height: 250px;
+    .hero-title {
+        font-size: 28px;
     }
 }
 
