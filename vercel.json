@@ -6,20 +6,6 @@
   "outputDirectory": ".",
   "framework": null,
   "regions": ["iad1"],
-  "rewrites": [
-    {
-      "source": "/cart/:path*",
-      "destination": "https://bys-store-2893582-948316.myshopify.com/cart/:path*"
-    },
-    {
-      "source": "/checkout/:path*",
-      "destination": "https://bys-store-2893582-948316.myshopify.com/checkout/:path*"
-    },
-    {
-      "source": "/checkouts/:path*",
-      "destination": "https://bys-store-2893582-948316.myshopify.com/checkouts/:path*"
-    }
-  ],
   "redirects": [
     {
       "source": "/mentions-legales",
