@@ -170,6 +170,7 @@ a:hover {
     margin: 0 auto;
     padding: var(--spacing-3xl) var(--spacing-lg);
     align-items: center;
+    background-color: #D4A574;
 }
 
 .hero-content {
@@ -180,7 +181,7 @@ a:hover {
 
 .hero-title {
     font-family: var(--font-serif);
-    font-size: 56px;
+    font-size: 72px;
     font-weight: 400;
     line-height: 1.1;
     color: var(--color-text);
@@ -191,7 +192,7 @@ a:hover {
 }
 
 .hero-subtitle {
-    font-size: 16px;
+    font-size: 21px;
     color: var(--color-text-light);
     max-width: 400px;
     line-height: 1.8;
