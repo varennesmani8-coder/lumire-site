@@ -196,7 +196,7 @@ a:hover {
 
 .hero-subtitle {
     font-size: 22px;
-    color: var(--color-text-light);
+    color: var(--color-text);
     max-width: 600px;
     line-height: 1.8;
     text-align: center;

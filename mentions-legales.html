@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="À propos de LUMIRÉ - Beauté accessible avec résultats visibles">
-    <title>À propos | LUMIRÉ</title>
+    <meta name="description" content="LUMIRÉ - Mentions légales">
+    <title>Mentions Légales | LUMIRÉ</title>
 
     <link rel="icon" type="image/png" href="/public/favicon.png">
     <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
@@ -16,22 +16,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .legal-section { margin-bottom: 48px; }
+        .legal-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 16px; margin-top: 32px; }
+        .legal-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 12px; margin-top: 20px; }
+        .legal-section p, .legal-section ul, .legal-section li { font-size: 16px; line-height: 1.8; color: #6f6f6f; margin-bottom: 16px; }
+        .legal-section ul { margin-left: 20px; }
+        .legal-nav { display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+        .legal-nav a { font-size: 14px; color: #C9A96E; text-decoration: none; border-bottom: 1px solid #C9A96E; padding-bottom: 2px; }
+        .legal-nav a:hover { opacity: 0.7; }
+    </style>
 </head>
 <body>
-    <!-- Header / Navigation -->
     <header class="header">
         <nav class="navbar">
             <div class="navbar-container">
                 <div class="logo-section">
                     <a href="/" class="logo">LUMIRÉ</a>
                 </div>
-
                 <ul class="nav-menu">
                     <li><a href="/#produits" class="nav-link">Produits</a></li>
                     <li><a href="/about.html" class="nav-link">À propos</a></li>
                     <li><a href="/contact.html" class="nav-link">Contact</a></li>
                 </ul>
-
                 <div class="nav-actions">
                     <button id="cart-button" class="cart-btn" aria-label="Panier">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -46,47 +54,58 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <main style="max-width: 1200px; margin: 60px auto; padding: 0 24px;">
-        <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 24px;">À propos de LUMIRÉ</h1>
+    <main style="max-width: 900px; margin: 60px auto; padding: 0 24px;">
+        <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 24px;">Mentions Légales</h1>
 
-        <section style="margin-bottom: 48px;">
-            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 16px;">Notre Mission</h2>
-            <p style="font-size: 16px; line-height: 1.8; color: #6f6f6f; margin-bottom: 16px;">
-                LUMIRÉ est né d'une conviction simple : la beauté premium doit être accessible à tous. Nous sélectionnons les appareils et produits les plus efficaces pour vous offrir une routine beauté quotidienne qui fonctionne vraiment.
-            </p>
-            <p style="font-size: 16px; line-height: 1.8; color: #6f6f6f;">
-                Chaque produit est choisi avec soin pour ses résultats visibles et sa qualité, afin que vous puissiez avoir confiance dans votre achat.
-            </p>
-        </section>
+        <nav class="legal-nav">
+            <a href="/mentions-legales.html">Mentions légales</a>
+            <a href="/politique-confidentialite.html">Politique de confidentialité</a>
+            <a href="/conditions-vente.html">Conditions de vente</a>
+        </nav>
 
-        <section style="margin-bottom: 48px;">
-            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 16px;">Nos Valeurs</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px;">
-                <div>
-                    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 8px;">Qualité</h3>
-                    <p style="font-size: 14px; line-height: 1.8; color: #6f6f6f;">Nous garantissons la qualité de chaque produit sélectionné pour vous.</p>
-                </div>
-                <div>
-                    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 8px;">Accessibilité</h3>
-                    <p style="font-size: 14px; line-height: 1.8; color: #6f6f6f;">La beauté premium à un prix juste, pour tous.</p>
-                </div>
-                <div>
-                    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 8px;">Support</h3>
-                    <p style="font-size: 14px; line-height: 1.8; color: #6f6f6f;">Nous sommes là pour vous aider et répondre à vos questions.</p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 16px;">Nous Contacter</h2>
-            <p style="font-size: 16px; line-height: 1.8; color: #6f6f6f;">
-                Des questions sur nos produits ? Visitez notre page <a href="/contact.html" style="color: #C9A96E; text-decoration: none;">Contact</a> pour nous joindre.
+        <div class="legal-section">
+            <h2>Informations Légales</h2>
+            <p>
+                LUMIRÉ est une plateforme de commerce électronique opérée conformément à la législation suisse.
+                Tous les produits proposés sont authentiques et proviennent de fournisseurs autorisés.
             </p>
-        </section>
+        </div>
+
+        <div class="legal-section">
+            <h2>Propriété Intellectuelle</h2>
+            <p>
+                Tous les contenus du site (textes, images, graphiques, logos) sont la propriété de LUMIRÉ ou de ses partenaires.
+                Toute reproduction, distribution ou utilisation sans autorisation est interdite.
+            </p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Cookies</h2>
+            <p>
+                Notre site utilise des cookies pour améliorer votre expérience.
+                Vous pouvez configurer votre navigateur pour refuser les cookies.
+            </p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Contact</h2>
+            <p>Pour toute question concernant ces mentions légales, veuillez nous contacter:</p>
+            <p>
+                Email: <a href="mailto:beauty.lumire@gmail.com" style="color: #C9A96E;">beauty.lumire@gmail.com</a><br>
+                Téléphone: <a href="tel:+41762361765" style="color: #C9A96E;">+41 76 236 17 65</a><br>
+                Adresse: Ces Chemins Mon Loisir 8, Les Hauts-Geneveys, Suisse
+            </p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Modifications</h2>
+            <p>
+                LUMIRÉ se réserve le droit de modifier ces mentions légales à tout moment.
+                Les modifications seront effectives dès leur publication sur le site.
+            </p>
+        </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -112,7 +131,6 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="js/cart.js"></script>
 </body>
 </html>

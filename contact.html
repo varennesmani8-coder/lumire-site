@@ -53,7 +53,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 48px;">
             <section>
                 <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 24px; margin-bottom: 24px;">Formulaire de Contact</h2>
-                <form style="display: flex; flex-direction: column; gap: 16px;">
+                <form id="contact-form" style="display: flex; flex-direction: column; gap: 16px;">
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <label for="name" style="font-weight: 500;">Nom</label>
                         <input type="text" id="name" name="name" required style="padding: 12px; border: 1px solid #e5e5ea; border-radius: 6px; font-family: 'Inter', sans-serif;">
@@ -70,9 +70,12 @@
                         <label for="message" style="font-weight: 500;">Message</label>
                         <textarea id="message" name="message" rows="5" required style="padding: 12px; border: 1px solid #e5e5ea; border-radius: 6px; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
                     </div>
-                    <button type="submit" style="background-color: #C9A96E; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                    <button type="submit" id="submit-btn" style="background-color: #C9A96E; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                         Envoyer le Message
                     </button>
+                    <p id="form-success" style="display: none; color: #4CAF50; font-size: 14px; text-align: center;">
+                        ✓ Votre email a été préparé. Veuillez l'envoyer depuis votre application mail.
+                    </p>
                 </form>
             </section>
 
@@ -82,7 +85,21 @@
                     <div>
                         <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 18px; margin-bottom: 8px;">Email</h3>
                         <p style="color: #6f6f6f; font-size: 16px;">
-                            <a href="mailto:hello@lumire.com" style="color: #C9A96E; text-decoration: none;">hello@lumire.com</a>
+                            <a href="mailto:beauty.lumire@gmail.com" style="color: #C9A96E; text-decoration: none;">beauty.lumire@gmail.com</a>
+                        </p>
+                    </div>
+                    <div>
+                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 18px; margin-bottom: 8px;">Téléphone</h3>
+                        <p style="color: #6f6f6f; font-size: 16px;">
+                            <a href="tel:+41762361765" style="color: #C9A96E; text-decoration: none;">+41 76 236 17 65</a>
+                        </p>
+                    </div>
+                    <div>
+                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 18px; margin-bottom: 8px;">Adresse</h3>
+                        <p style="color: #6f6f6f; font-size: 16px;">
+                            Ces Chemins Mon Loisir 8<br>
+                            Les Hauts-Geneveys<br>
+                            Suisse
                         </p>
                     </div>
                     <div>
@@ -117,9 +134,9 @@
             <div class="footer-section">
                 <h4>Légal</h4>
                 <ul>
-                    <li><a href="/legal.html">Mentions légales</a></li>
-                    <li><a href="/legal.html#politique-confidentialite">Politique de confidentialité</a></li>
-                    <li><a href="/legal.html#conditions-vente">Conditions de vente</a></li>
+                    <li><a href="/mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="/politique-confidentialite.html">Politique de confidentialité</a></li>
+                    <li><a href="/conditions-vente.html">Conditions de vente</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -131,5 +148,17 @@
 
     <!-- Scripts -->
     <script src="js/cart.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const body = 'De: ' + name + '\nEmail: ' + email + '\n\n' + message;
+            window.location.href = 'mailto:beauty.lumire@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+            document.getElementById('form-success').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
