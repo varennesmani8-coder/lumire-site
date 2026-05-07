@@ -1,8 +1,13 @@
 /* ===== UI AND APP INITIALIZATION ===== */
 
-// ⚠️ CONFIGURE THESE WITH YOUR SHOPIFY STORE INFO
-const SHOPIFY_STORE = 'bys-store-2893582-948316'; // Your store name
-const SHOPIFY_TOKEN = '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'; // Storefront API token (optional for read-only operations - public API allows unauthenticated reads)
+// Load configuration from config.js
+// config.js must be loaded before this script in index.html
+if (typeof window.SHOPIFY_CONFIG === 'undefined') {
+    console.error('⚠️ SHOPIFY_CONFIG not found. Make sure config.js is loaded before ui.js');
+}
+
+const SHOPIFY_STORE = window.SHOPIFY_CONFIG?.store?.name || 'bys-store-2893582-948316';
+const SHOPIFY_TOKEN = window.SHOPIFY_CONFIG?.api?.token || '';
 
 // Initialize Shopify API
 const shopifyAPI = new ShopifyAPI(SHOPIFY_STORE, SHOPIFY_TOKEN);
