@@ -34,6 +34,13 @@
                 </ul>
 
                 <div class="nav-actions">
+                    <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
                     <button id="cart-button" class="cart-btn" aria-label="Panier">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <circle cx="9" cy="21" r="1"></circle>
@@ -197,9 +204,9 @@
             <div class="footer-section">
                 <h4>LUMIRÉ</h4>
                 <ul>
-                    <li><a href="#apropos">À propos</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/about.html">À propos</a></li>
+                    <li><a href="/faq.html">FAQ</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -218,9 +225,119 @@
     </footer>
 
     <!-- Scripts -->
+    <!-- Configuration must be loaded first -->
+    <script src="config.js"></script>
+    <!-- Core API wrapper -->
     <script src="js/shopify-api.js"></script>
+    <!-- Cart manager -->
     <script src="js/cart.js"></script>
-    <script src="js/ui.js"></script>
+    <!-- Initialize shopifyAPI and uiManager without running index-only logic -->
+    <script>
+        // Initialize Shopify API from config (mirrors ui.js but without loadProducts / startInventoryRefresh)
+        (function () {
+            if (typeof window.SHOPIFY_CONFIG === 'undefined') {
+                console.error('⚠️ SHOPIFY_CONFIG not found. Make sure config.js is loaded before product-detail scripts.');
+                return;
+            }
+            const SHOPIFY_STORE = window.SHOPIFY_CONFIG.store.name;
+            const SHOPIFY_TOKEN = window.SHOPIFY_CONFIG.api.token;
+
+            // Expose shopifyAPI globally so product-detail.js can use it
+            window.shopifyAPI = new ShopifyAPI(SHOPIFY_STORE, SHOPIFY_TOKEN);
+
+            // Expose a minimal uiManager with just createProductCard for similar-products grid
+            window.uiManager = {
+                createProductCard: function (product) {
+                    const variant = product.variants.edges[0]?.node;
+                    const image = product.images.edges[0]?.node;
+                    const price = variant ? parseFloat(variant.priceV2.amount) : 0;
+                    const quantity = variant?.quantityAvailable || 0;
+
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.style.cursor = 'pointer';
+                    card.dataset.productHandle = product.handle;
+
+                    const img = document.createElement('img');
+                    img.src = image?.url || '';
+                    img.alt = image?.altText || product.title;
+                    img.className = 'product-image';
+                    img.loading = 'lazy';
+                    card.appendChild(img);
+
+                    const title = document.createElement('h3');
+                    title.className = 'product-name';
+                    title.textContent = product.title;
+                    card.appendChild(title);
+
+                    const stockBadge = document.createElement('div');
+                    if (quantity === 0 && !variant?.availableForSale) {
+                        stockBadge.textContent = 'Rupture de stock';
+                        stockBadge.className = 'stock-badge out-of-stock';
+                    } else if (quantity > 0 && quantity < 5) {
+                        stockBadge.textContent = 'Derniers articles!';
+                        stockBadge.className = 'stock-badge low-stock';
+                    } else {
+                        stockBadge.textContent = 'En stock';
+                        stockBadge.className = 'stock-badge in-stock';
+                    }
+                    card.appendChild(stockBadge);
+
+                    const priceDiv = document.createElement('div');
+                    priceDiv.className = 'product-price';
+                    priceDiv.textContent = price.toFixed(2) + ' CHF';
+                    card.appendChild(priceDiv);
+
+                    const taxNoteDiv = document.createElement('div');
+                    taxNoteDiv.style.fontSize = '11px';
+                    taxNoteDiv.style.color = 'var(--color-text-light)';
+                    taxNoteDiv.style.marginBottom = '8px';
+                    taxNoteDiv.style.fontStyle = 'italic';
+                    taxNoteDiv.textContent = 'Prix TTC au panier';
+                    card.appendChild(taxNoteDiv);
+
+                    const button = document.createElement('button');
+                    button.className = 'product-button';
+                    button.dataset.variantId = variant?.id || '';
+                    if (quantity === 0) {
+                        button.disabled = true;
+                        button.textContent = 'Rupture de stock';
+                        button.classList.add('disabled');
+                    } else {
+                        button.disabled = false;
+                        button.textContent = 'Ajouter au panier';
+                        button.classList.remove('disabled');
+                    }
+                    card.appendChild(button);
+
+                    return card;
+                },
+                openCartDrawer: function () {
+                    document.getElementById('cart-drawer').classList.add('open');
+                    document.getElementById('cart-overlay').classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                },
+                closeCartDrawer: function () {
+                    document.getElementById('cart-drawer').classList.remove('open');
+                    document.getElementById('cart-overlay').classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            };
+
+            console.log('✅ shopifyAPI and uiManager initialized for product-detail page');
+        })();
+    </script>
+    <!-- Product detail page logic -->
     <script src="js/product-detail.js"></script>
+    <script>
+    (function() {
+        var toggle = document.getElementById('menu-toggle');
+        var nav = document.querySelector('.nav-menu');
+        if (toggle && nav) {
+            toggle.addEventListener('click', function() { nav.classList.toggle('open'); });
+            nav.querySelectorAll('.nav-link').forEach(function(l) { l.addEventListener('click', function() { nav.classList.remove('open'); }); });
+        }
+    })();
+    </script>
 </body>
 </html>

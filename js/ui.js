@@ -74,6 +74,19 @@ class UIManager {
                 this.closeCartDrawer();
             }
         });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+            });
+            // Close menu on nav link click
+            navMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => navMenu.classList.remove('open'));
+            });
+        }
     }
 
     openCartDrawer() {

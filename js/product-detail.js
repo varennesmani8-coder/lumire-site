@@ -196,14 +196,24 @@ class ProductDetailManager {
             }
         }
 
-        // Stock status — based on availableForSale (no quantity numbers shown)
+        // Stock status — prefer availableForSale, fall back to totalInventory, hide if neither present
         const stockBadge = document.getElementById('stock-status');
-        if (!available) {
-            stockBadge.textContent = 'Rupture de stock';
-            stockBadge.className = 'stock-badge out-of-stock';
+        const hasAvailableForSale = typeof this.product.availableForSale === 'boolean';
+        const hasTotalInventory = typeof this.product.totalInventory === 'number';
+        if (!hasAvailableForSale && !hasTotalInventory) {
+            stockBadge.style.display = 'none';
         } else {
-            stockBadge.textContent = 'En stock';
-            stockBadge.className = 'stock-badge in-stock';
+            stockBadge.style.display = '';
+            const inStock = hasAvailableForSale
+                ? this.product.availableForSale
+                : this.product.totalInventory > 0;
+            if (inStock) {
+                stockBadge.textContent = 'En stock';
+                stockBadge.className = 'stock-badge in-stock';
+            } else {
+                stockBadge.textContent = 'Rupture de stock';
+                stockBadge.className = 'stock-badge out-of-stock';
+            }
         }
 
         // Update button state

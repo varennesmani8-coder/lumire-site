@@ -100,6 +100,8 @@ class ShopifyAPI {
                     title
                     description
                     descriptionHtml
+                    availableForSale
+                    totalInventory
                     priceRange {
                         minVariantPrice {
                             amount

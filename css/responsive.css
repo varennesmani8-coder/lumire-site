@@ -9,7 +9,7 @@
     }
 
     .hero-title {
-        font-size: 64px;
+        font-size: 136px;
     }
 
     /* Products: 2 columns on tablet */
@@ -66,17 +66,21 @@
         font-size: 18px;
     }
 
+    .menu-toggle {
+        display: block;
+    }
+
     /* Hero */
     .hero {
         padding: var(--spacing-2xl) var(--spacing-md);
     }
 
     .hero-title {
-        font-size: 48px;
+        font-size: 102px;
     }
 
     .hero-subtitle {
-        font-size: 16px;
+        font-size: 13px;
         max-width: 100%;
     }
 
@@ -266,12 +270,12 @@
     }
 
     .hero-title {
-        font-size: 36px;
+        font-size: 77px;
         line-height: 1.1;
     }
 
     .hero-subtitle {
-        font-size: 13px;
+        font-size: 11px;
     }
 
     /* Products */
@@ -394,11 +398,7 @@
     }
 
     .hero-title {
-        font-size: 24px;
-    }
-
-    .hero-title {
-        font-size: 28px;
+        font-size: 60px;
     }
 }
 
