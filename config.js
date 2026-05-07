@@ -17,8 +17,8 @@ const SHOPIFY_CONFIG = {
         // Token Type: Storefront API (shpss_ prefix)
         // Permissions: unauthenticated read products, checkouts
         // Scope: Public read-only access to products and cart
-        token: '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',
-        version: '2024-01',
+        token: '27cccedceb0850b7dc167304aa01d96a',
+        version: '2026-04',
     },
 
     // Cart Settings
