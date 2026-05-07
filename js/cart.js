@@ -312,14 +312,9 @@ class CartManager {
     // Checkout
     checkout() {
         if (this.checkoutUrl) {
-            // Shopify returns checkoutUrl with beautylumire.com (custom domain) but
-            // Vercel serves that domain — not Shopify. Replace with myshopify.com
-            // so the checkout is handled by Shopify's servers.
-            const url = this.checkoutUrl.replace(
-                'https://beautylumire.com',
-                'https://bys-store-2893582-948316.myshopify.com'
-            );
-            window.location.href = url;
+            // checkoutUrl = https://beautylumire.com/cart/c/TOKEN
+            // Vercel rewrites /cart/* → Shopify, so this URL works as-is.
+            window.location.href = this.checkoutUrl;
         }
     }
 
