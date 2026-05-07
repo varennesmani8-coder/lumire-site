@@ -124,6 +124,7 @@ class ShopifyAPI {
                                     currencyCode
                                 }
                                 availableForSale
+                                quantityAvailable
                             }
                         }
                     }

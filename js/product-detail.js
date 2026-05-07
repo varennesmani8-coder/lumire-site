@@ -58,24 +58,27 @@ class ProductDetailManager {
         // Update page title and meta
         document.title = `${this.product.title} | LUMIRÉ`;
 
-        // Breadcrumb
-        document.getElementById('breadcrumb-product').textContent = this.product.title;
-
         // Images carousel
         this.renderCarousel();
+
+        // Set first variant as default (must be before renderProductInfo)
+        if (this.product.variants.edges.length > 0) {
+            this.selectedVariant = this.product.variants.edges[0].node;
+        }
 
         // Product info
         this.renderProductInfo();
 
-        // Variants if available
-        if (this.product.options && this.product.options.length > 0) {
+        // Variants if available (skip default "Title / Default Title" option)
+        const hasRealOptions = this.product.options && this.product.options.some(
+            opt => !(opt.name === 'Title' && opt.values.length === 1 && opt.values[0] === 'Default Title')
+        );
+        if (hasRealOptions) {
             this.renderVariants();
         }
 
-        // Set first variant as default
-        if (this.product.variants.edges.length > 0) {
-            this.selectedVariant = this.product.variants.edges[0].node;
-        }
+        // Update button state with correct variant
+        this.updateAddToCartButton();
 
         // Remove loading state
         document.body.classList.remove('product-loading');
@@ -113,6 +116,20 @@ class ProductDetailManager {
 
             thumbnailsContainer.appendChild(thumbnail);
         });
+
+        // Hide nav arrows if only 1 image
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        const counter = document.querySelector('.image-counter');
+        if (images.length <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            if (counter) counter.style.display = 'none';
+        } else {
+            prevBtn.style.display = '';
+            nextBtn.style.display = '';
+            if (counter) counter.style.display = '';
+        }
     }
 
     // Select specific image
@@ -155,13 +172,10 @@ class ProductDetailManager {
     }
 
     // Render product info
-    // NOTE: priceV2.amount is displayed as HT (before VAT)
-    // Final price with TVA/taxes will be shown at checkout
     renderProductInfo() {
         const variant = this.product.variants.edges[0]?.node;
         const price = variant ? parseFloat(variant.priceV2.amount) : 0;
         const available = variant ? variant.availableForSale : false;
-        const quantity = variant?.quantityAvailable || 0;
 
         // Title
         document.getElementById('product-title').textContent = this.product.title;
@@ -170,7 +184,7 @@ class ProductDetailManager {
         document.getElementById('product-description').textContent =
             this.product.description || 'Aucune description disponible';
 
-        // Price display with TVA note for transparency
+        // Price display
         const priceSection = document.querySelector('.price-section');
         if (priceSection) {
             const priceDisplay = priceSection.querySelector('.price-display');
@@ -178,32 +192,22 @@ class ProductDetailManager {
                 priceDisplay.innerHTML = `
                     <span class="price-label">Prix:</span>
                     <span id="product-price" class="price-value">${price.toFixed(2)} CHF</span>
-                    <span style="font-size: 12px; color: var(--color-text-light); margin-left: 8px; font-style: italic;">Prix TTC au panier</span>
                 `;
             }
         }
 
-        // Stock status with quantity
+        // Stock status — based on availableForSale (no quantity numbers shown)
         const stockBadge = document.getElementById('stock-status');
-        if (quantity === 0) {
-            stockBadge.textContent = 'Stock epuise';
+        if (!available) {
+            stockBadge.textContent = 'Rupture de stock';
             stockBadge.className = 'stock-badge out-of-stock';
-        } else if (quantity < 5) {
-            stockBadge.textContent = `Derniers articles! (${quantity} restants)`;
-            stockBadge.className = 'stock-badge low-stock';
         } else {
-            stockBadge.textContent = `En stock (${quantity} disponibles)`;
+            stockBadge.textContent = 'En stock';
             stockBadge.className = 'stock-badge in-stock';
         }
 
-        // Cache initial inventory
-        this.inventoryCache.set(this.product.handle, quantity);
-
         // Update button state
         this.updateAddToCartButton();
-
-        // Start inventory refresh for this product
-        this.startInventoryRefresh();
     }
 
     // Render variant options
@@ -349,16 +353,22 @@ class ProductDetailManager {
     // Update add to cart button state
     updateAddToCartButton() {
         const btn = document.getElementById('add-to-cart-btn');
-        const quantity = this.selectedVariant?.quantityAvailable || 0;
-        const available = quantity > 0;
+        const available = this.selectedVariant?.availableForSale !== false;
 
         btn.disabled = !available;
-        btn.textContent = available ? 'Ajouter au panier' : 'Rupture de stock';
-
-        if (!available) {
-            btn.classList.add('disabled');
-        } else {
+        if (available) {
+            btn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right: 8px;">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                Ajouter au panier
+            `;
             btn.classList.remove('disabled');
+        } else {
+            btn.textContent = 'Rupture de stock';
+            btn.classList.add('disabled');
         }
     }
 
@@ -420,21 +430,20 @@ class ProductDetailManager {
     // Update product stock UI
     updateProductStockUI(variant, quantity) {
         const stockBadge = document.getElementById('stock-status');
+        const available = variant?.availableForSale !== false;
 
-        // Update stock badge
-        if (quantity === 0) {
-            stockBadge.textContent = 'Stock epuise';
+        // Update stock badge — no quantity numbers shown to customers
+        if (!available) {
+            stockBadge.textContent = 'Rupture de stock';
             stockBadge.className = 'stock-badge out-of-stock';
-        } else if (quantity < 5) {
-            stockBadge.textContent = `Derniers articles! (${quantity} restants)`;
-            stockBadge.className = 'stock-badge low-stock';
         } else {
-            stockBadge.textContent = `En stock (${quantity} disponibles)`;
+            stockBadge.textContent = 'En stock';
             stockBadge.className = 'stock-badge in-stock';
         }
 
-        // Update selected variant quantity
+        // Update selected variant
         if (this.selectedVariant) {
+            this.selectedVariant.availableForSale = available;
             this.selectedVariant.quantityAvailable = quantity;
         }
 

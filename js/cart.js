@@ -278,6 +278,7 @@ class CartManager {
                 qtyDiv.appendChild(btnMinus);
 
                 const qtySpan = document.createElement('span');
+                qtySpan.className = 'qty-count';
                 qtySpan.textContent = item.quantity;
                 qtyDiv.appendChild(qtySpan);
 

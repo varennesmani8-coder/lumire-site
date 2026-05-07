@@ -160,14 +160,14 @@ class UIManager {
         const stockBadge = document.createElement('div');
         stockBadge.className = 'stock-badge';
 
-        if (quantity === 0) {
-            stockBadge.textContent = 'Stock epuise';
+        if (quantity === 0 && !variant?.availableForSale) {
+            stockBadge.textContent = 'Rupture de stock';
             stockBadge.className = 'stock-badge out-of-stock';
-        } else if (quantity < 5) {
-            stockBadge.textContent = `Derniers articles! (${quantity})`;
+        } else if (quantity > 0 && quantity < 5) {
+            stockBadge.textContent = 'Derniers articles!';
             stockBadge.className = 'stock-badge low-stock';
         } else {
-            stockBadge.textContent = `En stock (${quantity})`;
+            stockBadge.textContent = 'En stock';
             stockBadge.className = 'stock-badge in-stock';
         }
         card.appendChild(stockBadge);
@@ -340,19 +340,19 @@ class UIManager {
 
         // Update badge and button based on quantity
         if (quantity === 0) {
-            stockBadge.textContent = 'Stock epuise';
+            stockBadge.textContent = 'Rupture de stock';
             stockBadge.className = 'stock-badge out-of-stock';
             button.disabled = true;
             button.textContent = 'Rupture de stock';
             button.classList.add('disabled');
         } else if (quantity < 5) {
-            stockBadge.textContent = `Derniers articles! (${quantity})`;
+            stockBadge.textContent = 'Derniers articles!';
             stockBadge.className = 'stock-badge low-stock';
             button.disabled = false;
             button.textContent = 'Ajouter au panier';
             button.classList.remove('disabled');
         } else {
-            stockBadge.textContent = `En stock (${quantity})`;
+            stockBadge.textContent = 'En stock';
             stockBadge.className = 'stock-badge in-stock';
             button.disabled = false;
             button.textContent = 'Ajouter au panier';

@@ -432,7 +432,7 @@ a:hover {
     display: flex;
     gap: var(--spacing-sm);
     align-items: center;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .qty-btn {
@@ -442,6 +442,19 @@ a:hover {
     height: 24px;
     border-radius: 4px;
     cursor: pointer;
+    color: var(--color-text);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-count {
+    min-width: 28px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
 }
 
 .remove-btn {
