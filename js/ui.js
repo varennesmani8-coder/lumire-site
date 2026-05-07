@@ -2,7 +2,7 @@
 
 // ⚠️ CONFIGURE THESE WITH YOUR SHOPIFY STORE INFO
 const SHOPIFY_STORE = 'bys-store-2893582-948316'; // Your store name
-const SHOPIFY_TOKEN = ''; // Storefront API token (optional for read-only operations - public API allows unauthenticated reads)
+const SHOPIFY_TOKEN = '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'; // Storefront API token (optional for read-only operations - public API allows unauthenticated reads)
 
 // Initialize Shopify API
 const shopifyAPI = new ShopifyAPI(SHOPIFY_STORE, SHOPIFY_TOKEN);
